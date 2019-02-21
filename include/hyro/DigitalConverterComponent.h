@@ -12,8 +12,6 @@
 namespace hyro
 {
 
-
-
 class SIGNAL_GENERATOR_COMPONENTS_EXPORT DigitalConverterComponent : public hyro::Component
 {
 public:

@@ -2,6 +2,7 @@ hyro_init_package(signal_generator VERSION 0.0.1)
 
 hyro_find_package(hyro_utils REQUIRED)
 hyro_find_package(hyro_msgs REQUIRED)
+hyro_find_package(hyro_python REQUIRED)
 
 set(SIGNAL_HEADERS
   include/hyro/SignalGeneratorComponent.h
@@ -30,6 +31,15 @@ hyro_add_library(
 hyro_add_executable(${PROJECT_NAME}
   SOURCES src/examples/signal_generator.cpp
   DEPENDS_ON ${PROJECT_NAME}_components
+)
+
+hyro_add_python_extension(${PROJECT_NAME}
+  PACKAGE hyro
+  SOURCES
+    src/bindings/python/signal_generator.cpp
+  DEPENDS_ON
+    ${PROJECT_NAME}_components
+    hyro_python
 )
 
 hyro_install_package(${PROJECT_NAME}

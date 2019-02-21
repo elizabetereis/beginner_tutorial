@@ -1,0 +1,47 @@
+hyro_init_package(signal_generator VERSION 0.0.1) 
+
+hyro_find_package(hyro_utils REQUIRED)
+hyro_find_package(hyro_msgs REQUIRED)
+
+set(SIGNAL_HEADERS
+  include/hyro/SignalGeneratorComponent.h
+  include/hyro/DigitalConverterComponent.h
+  src/internal/SignalGenerator.h
+  src/internal/Thresholding.h
+)
+set(SIGNAL_SOURCES
+  src/components/SignalGeneratorComponent.cpp
+  src/components/DigitalConverterComponent.cpp
+  src/internal/SignalGenerator.cpp
+  src/internal/Thresholding.cpp
+)
+
+hyro_add_library(
+  ${PROJECT_NAME}_components
+  HEADERS 
+    ${SIGNAL_HEADERS}
+  SOURCES 
+    ${SIGNAL_SOURCES}
+  DEPENDS_ON
+    hyro_utils
+    hyro_msgs
+)
+
+hyro_add_executable(${PROJECT_NAME}
+  SOURCES src/examples/signal_generator.cpp
+  DEPENDS_ON ${PROJECT_NAME}_components
+)
+
+hyro_install_package(${PROJECT_NAME}
+  LIBS
+    ${PROJECT_NAME}_components
+  EXES
+    ${PROJECT_NAME}
+)
+
+hyro_add_gtest(${PROJECT_NAME}
+  SOURCES
+    tests/test_signal_generator.cpp
+  DEPENDS_ON
+    ${PROJECT_NAME}_components
+)

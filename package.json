@@ -1,0 +1,11 @@
+{
+	"name": "signal_generator",
+	"version": "0.0.1",
+	"author": "HyRO Developer",
+	"description": "Signal Generator and Processor",
+	"dependencies": {
+			"hyro_api_channel": "*",
+			"hyro_utils": "*",
+			"hyro_msgs": "*"
+	}
+}

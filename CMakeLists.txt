@@ -38,7 +38,6 @@ hyro_add_python_extension(${PROJECT_NAME}
   SOURCES
     src/bindings/python/signal_generator.cpp
   DEPENDS_ON
-    ${PROJECT_NAME}_components
     hyro_python
 )
 

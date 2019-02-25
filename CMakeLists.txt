@@ -3,6 +3,7 @@ hyro_init_package(signal_generator VERSION 0.0.1)
 hyro_find_package(hyro_utils REQUIRED)
 hyro_find_package(hyro_msgs REQUIRED)
 hyro_find_package(hyro_python REQUIRED)
+hyro_find_package(hyro_widgets REQUIRED)
 
 set(SIGNAL_HEADERS
   include/hyro/SignalGeneratorComponent.h
@@ -28,6 +29,7 @@ hyro_add_library(
   DEPENDS_ON
     hyro_utils
     hyro_msgs
+    hyro_widgets
 )
 
 hyro_compile_messages(

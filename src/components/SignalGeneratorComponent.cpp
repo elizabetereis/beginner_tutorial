@@ -23,7 +23,7 @@ SignalGeneratorComponent::init (const hyro::ComponentConfiguration & config)
 {
 	this->setStatus(MyInternalStatus::OK);
   
-	m_output = this->registerOutput<double>("output"_uri, config);
+	m_output = this->registerOutput<Signal>("output"_uri, config);
   
   return hyro::Result::RESULT_OK;
 }
@@ -56,7 +56,10 @@ SignalGeneratorComponent::start ()
 hyro::Result
 SignalGeneratorComponent::update()
 {
-	double value = m_signal_generator.getSignalValue();
+  Signal value;
+  value.timestamp = std::time(0);
+  value.frame_id = "Signal";
+  value.value = m_signal_generator.getSignalValue();
   m_output->sendAsync(value);
 
   auto currentStatus = this->getStatus();

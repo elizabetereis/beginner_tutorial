@@ -7,6 +7,8 @@ hyro_find_package(hyro_python REQUIRED)
 set(SIGNAL_HEADERS
   include/hyro/SignalGeneratorComponent.h
   include/hyro/DigitalConverterComponent.h
+  include/hyro/msgs/Signal.h
+  include/hyro/msgs/Signal.proto.h
   src/internal/SignalGenerator.h
   src/internal/Thresholding.h
 )
@@ -26,6 +28,12 @@ hyro_add_library(
   DEPENDS_ON
     hyro_utils
     hyro_msgs
+)
+
+hyro_compile_messages(
+  ${PROJECT_NAME}_components
+    SOURCES
+      msgs/hyro/msgs/Signal.proto
 )
 
 hyro_add_executable(${PROJECT_NAME}

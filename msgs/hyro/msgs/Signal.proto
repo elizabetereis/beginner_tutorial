@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package hyro.msgs;
+
+message Signal
+{
+	int64 timestamp = 1;
+	string frame_id = 2;
+	double value = 3;
+}

@@ -20,7 +20,7 @@ DigitalConverterComponent::init (const hyro::ComponentConfiguration & config)
 	thresh = config.parameters.getParameter<double>("threshold", 0.0);
 	m_thresh = Thresholding(amp,thresh);
 
-	m_input = this->registerInput<double>("signals"_uri, config);
+	m_input = this->registerInput<Signal>("signals"_uri, config);
 	m_output = this->registerOutput<double>("digital_signals"_uri, config);
 	s_logger->info("Init:");
     
@@ -54,12 +54,12 @@ DigitalConverterComponent::start ()
 hyro::Result
 DigitalConverterComponent::update()
 {
-	auto value = std::shared_ptr<const double>();
+	auto value = std::shared_ptr<const Signal>();
   auto ret = m_input->receive(value, 0s);
 
   if (ret == ReceiveStatus::RECEIVE_OK)
   {
-    float thresh_signal = m_thresh.getSignalThreshold(*value);
+    float thresh_signal = m_thresh.getSignalThreshold(value->value);
     m_output->sendAsync(thresh_signal);
   }
 

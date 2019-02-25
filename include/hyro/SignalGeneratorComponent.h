@@ -10,6 +10,7 @@
 #include <hyro/msgs/common/Basic.h>
 
 #include "../src/internal/SignalGenerator.h"
+#include  <hyro/msgs/Signal.h>
 
 namespace hyro
 {
@@ -65,7 +66,7 @@ private:
 
   static std::shared_ptr<hyro::HyroLogger> s_logger;
 
-  std::shared_ptr<hyro::ChannelOutput<double>> m_output;
+  std::shared_ptr<hyro::ChannelOutput<Signal>> m_output;
 
   std::function<void (MyInternalStatus)> m_callback;
 };

@@ -8,6 +8,7 @@
 #include <hyro/core/Component.h>
 
 #include <hyro/msgs/common/Basic.h>
+#include  <hyro/msgs/Signal.h>
 
 namespace hyro
 {
@@ -34,7 +35,7 @@ private:
 
   Thresholding m_thresh;
 
-  std::shared_ptr<hyro::ChannelInput<double>> m_input;
+  std::shared_ptr<hyro::ChannelInput<Signal>> m_input;
   std::shared_ptr<hyro::ChannelOutput<double>> m_output;
 
   static std::shared_ptr<hyro::HyroLogger> s_logger;

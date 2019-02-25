@@ -61,15 +61,15 @@ TEST (SignalGeneratorTest, SignalGeneratorComponentCheck)
   ASSERT_EQ(hyro::Result::RESULT_OK, signal_generator_sm.start());
   ASSERT_EQ(hyro::Result::RESULT_OK, signal_generator_sm.check());
 
-	auto inputSignal = std::make_shared<FakeInput<double>>("/fake_input"_uri, "api", "/signal/output");
+	auto inputSignal = std::make_shared<FakeInput<Signal>>("/fake_input"_uri, "api", "/signal/output");
   ASSERT_TRUE(inputSignal->connect());
 
 	signal_generator_sm.update();
-	auto valueSignal = std::shared_ptr<const double>();
+	auto valueSignal = std::shared_ptr<const Signal>();
 
 	ReceiveStatus rec_signal = inputSignal->receive(valueSignal, 500ms);
 	ASSERT_EQ(ReceiveStatus::RECEIVE_OK, rec_signal);
-  EXPECT_EQ(*valueSignal, 0);
+  EXPECT_EQ(valueSignal->value, 0);
 
 	signal_generator_sm.reset();
 }
@@ -96,6 +96,7 @@ TEST (DigitalConverterTest, DigitalConverterCheck)
 	auto fake_digital_signals = std::make_shared<FakeInput<double>>("digital_signals"_uri, "api", "/digital_converter/digital_signals");
   ASSERT_TRUE(fake_digital_signals->connect());
 }
+
 //don't change here
 int main (int argc, char **argv)
 {

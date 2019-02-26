@@ -6,7 +6,21 @@
 #include <../src/internal/Thresholding.h>
 #include <hyro/SignalGeneratorComponent.h>
 #include <hyro/DigitalConverterComponent.h>
+#include <hyro/utils/DynamicPropertyAccess.h>
 
+static void
+__assert_and_run_state_machine(hyro::StateMachine& sm,
+                              const hyro::ComponentConfiguration& conf)
+{
+  ASSERT_EQ(hyro::Result::RESULT_OK, sm.init(conf));
+
+  ASSERT_EQ(hyro::Result::RESULT_OK, sm.start());
+
+  ASSERT_EQ(hyro::Result::RESULT_OK, sm.check());
+}
+
+#define ASSERT_AND_RUN_STATE_MACHINE(sm, conf) \
+__assert_and_run_state_machine(sm, conf)
 
 namespace hyro
 {
@@ -52,14 +66,13 @@ TEST (SignalGeneratorTest, SignalGeneratorComponentCheck)
 {
 	auto signal_conf = "{"
 		"outputs: {"
-			"output: { protocol: 'api' }"
+			"output: { protocol: 'api' },"
+      "fix_dynamic: { protocol: 'api' }"
 		"}"
 	"}";
 
 	StateMachine signal_generator_sm(std::make_shared<SignalGeneratorComponent>("/signal"_uri));
-	ASSERT_EQ(hyro::Result::RESULT_OK, signal_generator_sm.init(ComponentConfiguration(signal_conf)));
-  ASSERT_EQ(hyro::Result::RESULT_OK, signal_generator_sm.start());
-  ASSERT_EQ(hyro::Result::RESULT_OK, signal_generator_sm.check());
+  ASSERT_AND_RUN_STATE_MACHINE(signal_generator_sm, ComponentConfiguration(signal_conf));
 
 	auto inputSignal = std::make_shared<FakeInput<Signal>>("/fake_input"_uri, "api", "/signal/output");
   ASSERT_TRUE(inputSignal->connect());
@@ -95,6 +108,40 @@ TEST (DigitalConverterTest, DigitalConverterCheck)
  	
 	auto fake_digital_signals = std::make_shared<FakeInput<double>>("digital_signals"_uri, "api", "/digital_converter/digital_signals");
   ASSERT_TRUE(fake_digital_signals->connect());
+}
+
+TEST (TestSignalGenerator, DynamicPropertiesCheck)
+{
+  auto signal_conf = "{"
+		"outputs: {"
+			"output: { protocol: 'api' },"
+      "fix_dynamic: { protocol: 'api' }"
+		"}"
+	"}";
+
+	StateMachine signal_generator_sm(std::make_shared<SignalGeneratorComponent>("/signal_generator"_uri));
+  ASSERT_AND_RUN_STATE_MACHINE(signal_generator_sm, ComponentConfiguration(signal_conf));
+  
+  DynamicPropertyAccess dynamic_property_access("/signal_generator"_uri);
+
+  float not_exits;
+  ASSERT_ANY_THROW(dynamic_property_access.get("not_exists", not_exits));
+  ASSERT_TRUE(dynamic_property_access.set("amplitude", 10.0));
+  ASSERT_TRUE(dynamic_property_access.set("frequency", 20.0));
+  ASSERT_TRUE(dynamic_property_access.set("cosine", true));
+
+  double amplitude, frequency;
+  bool cosine;
+
+  ASSERT_TRUE(dynamic_property_access.get("amplitude", amplitude));
+  ASSERT_TRUE(dynamic_property_access.get("frequency", frequency));
+  ASSERT_TRUE(dynamic_property_access.get("cosine", cosine));
+
+  ASSERT_NEAR(amplitude, 10.0, 0.001);
+  ASSERT_NEAR(frequency, 20.0, 0.001);
+  ASSERT_EQ(cosine,true);
+
+  signal_generator_sm.reset();
 }
 
 //don't change here

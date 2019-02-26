@@ -24,6 +24,25 @@ SignalGeneratorComponent::init (const hyro::ComponentConfiguration & config)
 	this->setStatus(MyInternalStatus::OK);
   
 	m_output = this->registerOutput<Signal>("output"_uri, config);
+
+  std::shared_ptr<ChannelOutput<std::vector<int>>>
+  m_dummy = this->registerOutput<std::vector<int>>("fix_dynamic"_uri, config);
+
+  registerDynamicProperty<double>(
+    "amplitude",
+    &SignalGeneratorComponent::setAmplitude,
+    &SignalGeneratorComponent::getAmplitude,
+    this);
+  registerDynamicProperty<double>(
+    "frequency",
+    &SignalGeneratorComponent::setFrequency,
+    &SignalGeneratorComponent::getFrequency,
+    this);
+  registerDynamicProperty<bool>(
+    "cosine",
+    &SignalGeneratorComponent::setCosine,
+    &SignalGeneratorComponent::getCosine,
+    this);
   
   return hyro::Result::RESULT_OK;
 }

@@ -43,6 +43,11 @@ hyro_add_executable(${PROJECT_NAME}
   DEPENDS_ON ${PROJECT_NAME}_components
 )
 
+hyro_add_executable(${PROJECT_NAME}_dynamic
+  SOURCES src/examples/main_dynamic_properties.cpp
+  DEPENDS_ON ${PROJECT_NAME}_components
+)
+
 hyro_add_python_extension(${PROJECT_NAME}
   PACKAGE hyro
   SOURCES

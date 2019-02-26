@@ -36,9 +36,6 @@
 				"}"
 		"}");
 
-    auto dig_connections = ConnectionConfiguration(
-      "{ signals: {endpoint: '/signal_generator/output' }}");
-
     sig_sm.init(signal_config);
     dig_sm.init(digital_config);
 

@@ -4,9 +4,9 @@
 	"author": "HyRO Developer",
 	"description": "Signal Generator and Processor",
 	"dependencies": {
-			"hyro_api_channel": "*",
-			"hyro_utils": "*",
-			"hyro_msgs": "*",
-			"hyro_python": "*"
+		"hyro_api_channel": "*",
+		"hyro_utils": "*",
+		"hyro_msgs": "*",
+		"hyro_python": "*"
 	}
 }

@@ -17,20 +17,20 @@ struct  ProtobufTraits<Signal> : public  ProtobufTraitsDefault<Signal, msgs::Sig
   static  void
   FromMessage (const  msgs::Signal  &  msg,
   Signal  *  value)
-    {
-      value->timestamp  =  msg.timestamp();
-      value->frame_id  =  msg.frame_id();
-      value->value  =  msg.value();
-    } 
+  {
+    value->timestamp  =  msg.timestamp();
+    value->frame_id  =  msg.frame_id();
+    value->value  =  msg.value();
+  } 
 
   static  void
   ToMessage (const  Signal  &  value,
   msgs::Signal  *  msg)
-    {
-      msg->set_timestamp(value.timestamp);
-      msg->set_frame_id(value.frame_id);
-      msg->set_value(value.value);
-    }
+  {
+    msg->set_timestamp(value.timestamp);
+    msg->set_frame_id(value.frame_id);
+    msg->set_value(value.value);
+  }
 
 };
 
